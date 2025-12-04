@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elixir Coffee Bar - Menú Completo y Experiencias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0a;
+            color: #e8e8e8;
+        }
+        
+        .gradient-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #aa8c2e 100%);
+        }
+        
+        .gradient-dark {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .gradient-premium {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+        }
+        
+        .transition-smooth {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.4);
+        }
+
+        .glow-gold {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        
+        .nav-link {
+            cursor: pointer;
+            position: relative;
+            padding-bottom: 5px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #d4af37;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeInSection 0.5s ease;
+        }
+
+        @keyframes fadeInSection {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .section.active {
+            display: block;
+        }
+
+        .martini-logo {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .martini-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .coffee-bean-animated {
+            position: absolute;
+            width: 32px;
+            height: 40px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: beanPulse 2s ease-in-out infinite, beanGlow 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+        }
+
+        @keyframes beanPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.15);
+            }
+        }
+
+        @keyframes beanGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6)) drop-shadow(0 0 4px rgba(240, 230, 140, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 16px rgba(212, 175, 55, 1)) drop-shadow(0 0 8px rgba(240, 230, 140, 0.8));
+            }
+        }
+
+        @keyframes beanRotate {
+            0% {
+                transform: translate(-50%, -50%) rotateZ(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotateZ(360deg);
+            }
+        }
+
+        .coffee-bean-animated.rotating {
+            animation: beanRotate 8s linear infinite, beanGlow 3s ease-in-out infinite;
+        }
+
+        .bean-shine {
+            position: absolute;
+            width: 6px;
+            height: 8px;
+            background: #f0e68c;
+            border-radius: 50%;
+            top: 4px;
+            left: 8px;
+            animation: shinePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes shinePulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .martini-glass {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); }
+        }
+        
+        .card-experience {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-experience::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-experience:hover::before {
+            opacity: 1;
+        }
+        
+        .experience-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #3d3d3d 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        }
+
+        .menu-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+        }
+
+        .menu-card h4 {
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .menu-card p {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .menu-card em {
+            display: block;
+            color: #d4af37;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(212, 175, 55, 0.2);
+            font-style: italic;
+        }
+
+        .menu-card ul {
+            list-style: none;
+            margin: 8px 0 0 0;
+            padding: 0;
+        }
+
+        .menu-card ul li {
+            color: #999;
+            font-size: 0.9rem;
+            padding-left: 16px;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .menu-card ul li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+        }
+
+        .list-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 24px;
+            grid-column: span 1;
+        }
+
+        .list-card h4 {
+            color: #d4af37;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .list-card p.intro {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .list-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .list-card ul li {
+            color: #d4af37;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding-bottom: 8px;
+            border-bottom: 1px dotted rgba(212, 175, 55, 0.2);
+        }
+
+        .list-card ul li strong {
+            color: #fff;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #d4af37;
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .input-field {
+            background-color: #2d2d2d;
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: #e8e8e8;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .input-field::placeholder {
+            color: #888;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            background-color: #353535;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #aa8c2e 100%);
+            color: #1a1a1a;
+            font-weight: bold;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background-color: #444;
+            color: #e8e8e8;
+            padding: 12px 24px;
+            border: 2px solid #555;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #555;
+            border-color: #d4af37;
+        }
+
+        .cat-btn {
+            background-color: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: #d4af37;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .cat-btn:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+        }
+
+        .cat-btn.active {
+            background: #d4af37;
+            color: #1a1a1a;
+            border-color: #d4af37;
+        }
+
+        .about-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-left: 5px solid #d4af37;
+            padding: 28px;
+            border-radius: 12px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .stat-box:hover::before {
+            left: 100%;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-title {
+            background: linear-gradient(135deg, #d4af37 0%, #f0e68c 50%, #aa8c2e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-border {
+            position: relative;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-border::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        .nav-border:hover::after {
+            width: 100%;
+        }
+
+        .review-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .review-form label {
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .review-item {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid #d4af37;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .review-item:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateX(4px);
+        }
+
+        .review-item-author {
+            color: #d4af37;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .review-item-rating {
+            color: #ffd700;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .review-item-text {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .opcionales-box {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            padding: 32px;
+            margin: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opcionales-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .opcionales-box h3 {
+            color: #d4af37;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .opcionales-box p.intro {
+            color: #999;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+        }
+
+        .opcionales-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .opcionales-box ul li {
+            color: #e8e8e8;
+            font-size: 1.05rem;
+            padding: 12px 0;
+            padding-left: 24px;
+            position: relative;
+            border-bottom: 1px dotted rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .opcionales-box ul li:last-child {
+            border-bottom: none;
+        }
+
+        .opcionales-box ul li:before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .opcionales-box ul li:hover {
+            color: #d4af37;
+            padding-left: 32px;
+            transform: translateX(4px);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.2) 0%, rgba(52, 168, 83, 0.1) 100%);
+            border: 2px solid #34a853;
+            color: #34a853;
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            animation: slideUp 0.3s ease;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.2) 0%, rgba(229, 57, 53, 0.1) 100%);
+            border: 2px solid #e53935;
+            color: #e53935;
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            animation: slideUp 0.3s ease;
+        }
+
+        .contact-info-item {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid #d4af37;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .contact-info-item .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-info-item h3 {
+            color: #d4af37;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .contact-info-item p {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #d4af37;
+        }
+
+        .social-link:hover {
+            background: #d4af37;
+            color: #1a1a1a;
+            transform: scale(1.1);
+        }
+
+        /* GALERÍA DE FOTOS */
+        .gallery-section {
+            margin-top: 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #d4af37;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item-placeholder {
+            font-size: 3rem;
+            color: #d4af37;
+            opacity: 0.7;
+        }
+
+        .gallery-item-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(229, 57, 53, 0.9);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .gallery-item:hover .gallery-item-delete {
+            display: flex;
+        }
+
+        .gallery-item-delete:hover {
+            background: rgba(229, 57, 53, 1);
+            transform: scale(1.1);
+        }
+
+        .upload-area {
+            border: 3px dashed #d4af37;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(212, 175, 55, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+
+        .upload-area:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #f0e68c;
+        }
+
+        .upload-area.dragover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: #f0e68c;
+            transform: scale(1.02);
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-text {
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtext {
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Mejorada -->
+    <nav class="gradient-dark sticky top-0 z-50 shadow-2xl nav-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <span class="flex items-center space-x-3 cursor-pointer" onclick="showSection('inicio')">
+                    <div class="martini-logo">
+                        <div class="martini-container">
+                            <svg class="martini-glass" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.9" />
+                                        <stop offset="50%" style="stop-color:#f0e68c;stop-opacity:0.7" />
+                                        <stop offset="100%" style="stop-color:#aa8c2e;stop-opacity:0.9" />
+                                    </linearGradient>
+                                    <linearGradient id="stemGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.8" />
+                                        <stop offset="100%" style="stop-color:#aa8c2e;stop-opacity:0.8" />
+                                    </linearGradient>
+                                </defs>
+                                <polygon points="20,25 80,25 60,60 40,60" fill="url(#glassGradient)" stroke="#8b7a1a" stroke-width="1.5" opacity="0.95"/>
+                                <line x1="20" y1="25" x2="80" y2="25" stroke="#f0e68c" stroke-width="2" opacity="0.8"/>
+                                <rect x="48" y="60" width="4" height="20" fill="url(#stemGradient)" stroke="#8b7a1a" stroke-width="1"/>
+                                <ellipse cx="50" cy="82" rx="12" ry="4" fill="url(#stemGradient)" stroke="#8b7a1a" stroke-width="1"/>
+                                <polygon points="25,30 35,35 30,40" fill="#f0e68c" opacity="0.6"/>
+                                <circle cx="50" cy="22" r="3" fill="#d4af37" stroke="#8b7a1a" stroke-width="0.5"/>
+                            </svg>
+                            
+                            <svg class="coffee-bean-animated" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="beanGradientNav" cx="35%" cy="35%">
+                                        <stop offset="0%" style="stop-color:#f0e68c;stop-opacity:1" />
+                                        <stop offset="50%" style="stop-color:#d4af37;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#aa8c2e;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <ellipse cx="50" cy="50" rx="32" ry="38" fill="url(#beanGradientNav)" stroke="#8b7a1a" stroke-width="1.5"/>
+                                <path d="M 50 15 Q 50 50 50 85" stroke="#8b7a1a" stroke-width="2" fill="none"/>
+                                <ellipse cx="42" cy="32" rx="8" ry="12" fill="#f0e68c" opacity="0.6"/>
+                                <ellipse cx="58" cy="68" rx="10" ry="8" fill="#6b5a1a" opacity="0.3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold hero-title">ELIXIR</span>
+                        <p class="text-xs text-gray-400 tracking-widest">COFFEE BAR</p>
+                    </div>
+                </span>
+                <div class="hidden md:flex space-x-10">
+                    <span class="nav-link" onclick="showSection('inicio')">Inicio</span>
+                    <span class="nav-link" onclick="showSection('menu')">Menú</span>
+                    <span class="nav-link" onclick="showSection('experiencias')">Experiencias</span>
+                    <span class="nav-link" onclick="showSection('galeria')">Galería</span>
+                    <span class="nav-link" onclick="showSection('nosotros')">Nosotros</span>
+                    <span class="nav-link" onclick="showSection('reseñas')">Reseñas</span>
+                    <span class="nav-link" onclick="showSection('contacto')">Contacto</span>
+                </div>
+                <button class="md:hidden text-yellow-600 text-2xl hover:text-yellow-500 transition-colors" onclick="toggleMobileMenu()">☰</button>
+            </div>
+            <div id="mobileMenu" class="hidden md:hidden pb-4 space-y-2 bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg mt-2">
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('inicio')">Inicio</button>
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('menu')">Menú</button>
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('experiencias')">Experiencias</button>
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('galeria')">Galería</button>
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('nosotros')">Nosotros</button>
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('reseñas')">Reseñas</button>
+                <button class="block w-full text-left px-4 py-3 hover:bg-gray-700 hover:text-yellow-600 rounded transition-all" onclick="showSection('contacto')">Contacto</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Inicio -->
+    <section id="inicio" class="section active">
+        <div class="gradient-premium min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-20 left-10 w-72 h-72 bg-yellow-600 rounded-full mix-blend-multiply filter blur-3xl"></div>
+                <div class="absolute bottom-20 right-10 w-72 h-72 bg-yellow-700 rounded-full mix-blend-multiply filter blur-3xl"></div>
+            </div>
+            <div class="text-center relative z-10">
+                <div class="text-9xl mb-8 flex justify-center">
+                    <div class="martini-logo" style="width: 180px; height: 180px;">
+                        <div class="martini-container">
+                            <svg class="martini-glass" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="glassGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.9" />
+                                        <stop offset="50%" style="stop-color:#f0e68c;stop-opacity:0.7" />
+                                        <stop offset="100%" style="stop-color:#aa8c2e;stop-opacity:0.9" />
+                                    </linearGradient>
+                                    <linearGradient id="stemGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.8" />
+                                        <stop offset="100%" style="stop-color:#aa8c2e;stop-opacity:0.8" />
+                                    </linearGradient>
+                                </defs>
+                                <polygon points="20,25 80,25 60,60 40,60" fill="url(#glassGradient2)" stroke="#8b7a1a" stroke-width="1.5" opacity="0.95"/>
+                                <line x1="20" y1="25" x2="80" y2="25" stroke="#f0e68c" stroke-width="2" opacity="0.8"/>
+                                <rect x="48" y="60" width="4" height="20" fill="url(#stemGradient2)" stroke="#8b7a1a" stroke-width="1"/>
+                                <ellipse cx="50" cy="82" rx="12" ry="4" fill="url(#stemGradient2)" stroke="#8b7a1a" stroke-width="1"/>
+                                <polygon points="25,30 35,35 30,40" fill="#f0e68c" opacity="0.6"/>
+                                <circle cx="50" cy="22" r="3" fill="#d4af37" stroke="#8b7a1a" stroke-width="0.5"/>
+                            </svg>
+                            
+                            <svg class="coffee-bean-animated rotating" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="beanGradientHero" cx="35%" cy="35%">
+                                        <stop offset="0%" style="stop-color:#f0e68c;stop-opacity:1" />
+                                        <stop offset="50%" style="stop-color:#d4af37;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#aa8c2e;stop-opacity:1" />
+                                    </radialGradient>
+                                </defs>
+                                <ellipse cx="50" cy="50" rx="32" ry="38" fill="url(#beanGradientHero)" stroke="#8b7a1a" stroke-width="1.5"/>
+                                <path d="M 50 15 Q 50 50 50 85" stroke="#8b7a1a" stroke-width="2" fill="none"/>
+                                <ellipse cx="42" cy="32" rx="8" ry="12" fill="#f0e68c" opacity="0.6"/>
+                                <ellipse cx="58" cy="68" rx="10" ry="8" fill="#6b5a1a" opacity="0.3"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="text-6xl md:text-8xl font-black mb-8 hero-title">
+                    ELIXIR COFFEE BAR
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
+                    Descubre experiencias de café premium en un espacio industrial único. Donde la pasión por el café se encuentra con el diseño moderno y la excelencia.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showSection('menu')" class="btn-primary text-lg px-10 py-4 shadow-lg">
+                        Ver Menú Completo
+                    </button>
+                    <button onclick="openReservaModal()" class="px-10 py-4 border-2 border-yellow-600 text-yellow-600 rounded-lg font-bold hover:bg-yellow-600 hover:text-black transition-all duration-300 shadow-lg">
+                        Reservar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Menú -->
+    <section id="menu" class="section py-24 px-4 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-6xl md:text-7xl font-black mb-6 hero-title">Nuestro Menú</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">Explora nuestras categorías de Comidas y Bebidas. Cada plato está creado con ingredientes de calidad y atención al detalle.</p>
+            </div>
+
+            <!-- Opcionales del Día - Destacado -->
+            <div class="opcionales-box">
+                <h3>💡 Opcionales del Día (Rotativos)</h3>
+                <ul>
+                    <li>Tostada de burrata, pistachos y miel</li>
+                    <li>Arepa de maíz amarillo con queso y pesto de albahaca</li>
+                    <li>Mini waffles con toppings del día</li>
+                </ul>
+            </div>
+
+            <!-- Selectores de Categoría Principal -->
+            <div class="flex gap-4 justify-center mb-8 flex-wrap">
+                <button class="cat-btn active" onclick="changeMainMenu('food')">🍽️ Comidas</button>
+                <button class="cat-btn" onclick="changeMainMenu('drinks')">☕ Bebidas</button>
+            </div>
+
+            <!-- Selectores de Subcategoría -->
+            <div id="subcatsContainer" class="flex gap-3 mb-12 overflow-x-auto pb-4 justify-center flex-wrap"></div>
+
+            <!-- Grid de Menú -->
+            <div id="menuGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- Sección Experiencias -->
+    <section id="experiencias" class="section py-24 px-4 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-6xl md:text-7xl font-black mb-6 hero-title">Nuestras Experiencias</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">Vive momentos únicos con nuestras experiencias de café curadas especialmente por expertos</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-experience hover-lift group">
+                    <div class="experience-image group-hover:scale-110 transition-transform duration-300">🌾</div>
+                    <div class="p-8 relative z-10">
+                        <h3 class="text-2xl font-bold mb-3 text-yellow-600 group-hover:text-yellow-400 transition-colors">Cata Profesional</h3>
+                        <p class="text-gray-400 mb-4 text-sm leading-relaxed">Aprende a identificar notas, aromas y sabores únicos. Una experiencia educativa guiada por expertos certificados internacionalmente.</p>
+                        <p class="text-yellow-600 font-bold mb-6">⏱️ 60 minutos | 💰 $45.000</p>
+                        <button onclick="openReservaModal('Cata Profesional')" class="btn-primary w-full">Reservar Ahora</button>
+                    </div>
+                </div>
+
+                <div class="card-experience hover-lift group">
+                    <div class="experience-image group-hover:scale-110 transition-transform duration-300">💧</div>
+                    <div class="p-8 relative z-10">
+                        <h3 class="text-2xl font-bold mb-3 text-yellow-600 group-hover:text-yellow-400 transition-colors">Brew Master</h3>
+                        <p class="text-gray-400 mb-4 text-sm leading-relaxed">Domina diferentes métodos de preparación. Desde espresso hasta métodos alternativos profesionales.</p>
+                        <p class="text-yellow-600 font-bold mb-6">⏱️ 120 minutos | 💰 $65.000</p>
+                        <button onclick="openReservaModal('Brew Master')" class="btn-primary w-full">Reservar Ahora</button>
+                    </div>
+                </div>
+
+                <div class="card-experience hover-lift group">
+                    <div class="experience-image group-hover:scale-110 transition-transform duration-300">👥</div>
+                    <div class="p-8 relative z-10">
+                        <h3 class="text-2xl font-bold mb-3 text-yellow-600 group-hover:text-yellow-400 transition-colors">Evento Privado</h3>
+                        <p class="text-gray-400 mb-4 text-sm leading-relaxed">Personaliza tu experiencia. Perfecto para equipos, celebraciones o encuentros corporativos especiales.</p>
+                        <p class="text-yellow-600 font-bold mb-6">⏱️ A partir de 150 min | 💰 Consultar</p>
+                        <button onclick="openReservaModal('Evento Privado')" class="btn-primary w-full">Reservar Ahora</button>
+                    </div>
+                </div>
+
+                <div class="card-experience hover-lift group">
+                    <div class="experience-image group-hover:scale-110 transition-transform duration-300">🌍</div>
+                    <div class="p-8 relative z-10">
+                        <h3 class="text-2xl font-bold mb-3 text-yellow-600 group-hover:text-yellow-400 transition-colors">Viaje por Orígenes</h3>
+                        <p class="text-gray-400 mb-4 text-sm leading-relaxed">Explora cafés de diferentes regiones del Pais. Descubre características únicas de cada origen.</p>
+                        <p class="text-yellow-600 font-bold mb-6">⏱️  75 minutos | 💰 $50.000</p>
+                        <button onclick="openReservaModal('Viaje por Orígenes')" class="btn-primary w-full">Reservar Ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Galería -->
+    <section id="galeria" class="section py-24 px-4 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-6xl md:text-7xl font-black mb-6 hero-title">Galería de Platos</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">Platos y Bebidas insignias de Elixir Coffee Bar, una experiencia excepcional.</p>
+            </div>
+
+            <!-- Área de Carga -->
+            <div class="upload-area" onclick="document.getElementById('photoInput').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+                <div class="upload-text">📸 Arrastra fotos aquí o haz clic para subir</div>
+                <div class="upload-subtext">Formatos soportados: JPG, PNG, WebP (máx. 5MB)</div>
+            </div>
+
+            <!-- Galería de Fotos -->
+            <div class="gallery-grid" id="photoGallery">
+                <!-- Las fotos se cargarán aquí dinámicamente -->
+            </div>
+
+            <div id="emptyGalleryMessage" class="text-center mt-12 text-gray-400">
+                <p class="text-lg">Aún no hay fotos. ¡Sé el primero en compartir!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Nosotros -->
+    <section id="nosotros" class="section py-24 px-4 gradient-dark">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-6xl md:text-7xl font-black text-center mb-16 hero-title">Sobre Elixir Coffee Bar</h2>
+            
+            <div class="grid md:grid-cols-2 gap-16 items-center mb-16">
+                <div class="space-y-6">
+                    <div class="feature-icon">🏭</div>
+                    <h3 class="text-4xl font-bold text-yellow-600">Diseño Industrial Auténtico</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        Nuestro espacio respira autenticidad industrial. Una estética minimalista que celebra la belleza de lo funcional. Cada rincón ha sido meticulosamente diseñado para inspirar y conectar.
+                    </p>
+                </div>
+                <div class="stat-box">
+                    <div class="text-7xl mb-4 animate-bounce">⚙️</div>
+                    <p class="text-gray-300 text-xl font-light">Donde la pasión por el café se encuentra con la ingeniería del sabor perfecto</p>
+                </div>
+            </div>
+
+            <div class="about-box">
+                <h3 class="text-3xl font-bold text-yellow-600 mb-4">🎯 Nuestra Misión</h3>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                    En Elixir Coffee Bar, creemos que el café es más que una bebida. Es una experiencia, un arte y una conexión humana. Nos dedicamos a ofrecer experiencias educativas y memorables que transforman la forma en que las personas entienden y disfrutan el café. Compartiendo un gran momento. Nuestro compromiso es con la calidad premium, la sostenibilidad y la pasión genuina por cada taza.
+                </p>
+            </div>
+
+            <div class="about-box">
+                <h3 class="text-3xl font-bold text-yellow-600 mb-6">✨ ¿Por Qué Elegirnos?</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl text-yellow-600">✓</span>
+                        <p class="text-gray-300">Expertos certificados en café especializado</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl text-yellow-600">✓</span>
+                        <p class="text-gray-300">Café de origen único y trazable con garantía de calidad</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl text-yellow-600">✓</span>
+                        <p class="text-gray-300">Ambiente industrial auténtico y acogedor para todos</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl text-yellow-600">✓</span>
+                        <p class="text-gray-300">Experiencias personalizadas y completamente flexibles</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl text-yellow-600">✓</span>
+                        <p class="text-gray-300">Compromiso absoluto con la sostenibilidad ambiental</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl text-yellow-600">✓</span>
+                        <p class="text-gray-300">Comunidad vibrante de amantes del café de calidad</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-16">
+                <div class="stat-box group">
+                    <div class="text-6xl mb-4 group-hover:scale-125 transition-transform duration-300">500+</div>
+                    <p class="text-gray-400 font-semibold text-lg">Experiencias Realizadas</p>
+                    <p class="text-gray-500 text-sm mt-2">Historias de satisfacción</p>
+                </div>
+                <div class="stat-box group">
+                    <div class="text-6xl mb-4 group-hover:scale-125 transition-transform duration-300">12</div>
+                    <p class="text-gray-400 font-semibold text-lg">Años de Experiencia</p>
+                    <p class="text-gray-500 text-sm mt-2">Trayectoria de excelencia</p>
+                </div>
+                <div class="stat-box group">
+                    <div class="text-6xl mb-4 group-hover:scale-125 transition-transform duration-300">98%</div>
+                    <p class="text-gray-400 font-semibold text-lg">Satisfacción de Clientes</p>
+                    <p class="text-gray-500 text-sm mt-2">Recomendación garantizada</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Reseñas -->
+    <section id="reseñas" class="section py-24 px-4 bg-black">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-6xl md:text-7xl font-black text-center mb-6 hero-title">Reseñas de Nuestros Clientes</h2>
+            <p class="text-xl text-gray-400 text-center mb-16 max-w-2xl mx-auto font-light">Comparte tu experiencia en nuestro Coffee Bar y descubre lo que otros clientes opinan</p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="review-section">
+                    <h3 class="text-2xl font-bold text-yellow-600 mb-6">✍️ Escribe tu Reseña</h3>
+                    <form class="review-form" onsubmit="handleReview(event)">
+                        <div>
+                            <label for="reviewName">Tu Nombre</label>
+                            <input type="text" id="reviewName" class="input-field" placeholder="Ingresa tu nombre" required>
+                        </div>
+                        
+                        <div>
+                            <label for="reviewRating">Calificación</label>
+                            <select id="reviewRating" class="input-field" required>
+                                <option value="">Selecciona una calificación</option>
+                                <option value="⭐">⭐ Pobre</option>
+                                <option value="⭐⭐">⭐⭐ Bueno</option>
+                                <option value="⭐⭐⭐">⭐⭐⭐ Muy Bueno</option>
+                                <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ Excelente</option>
+                                <option value="⭐⭐⭐⭐⭐" selected>⭐⭐⭐⭐⭐ Excepcional</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="reviewText">Tu Reseña</label>
+                            <textarea id="reviewText" class="input-field" placeholder="Cuéntanos tu experiencia..." rows="4" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary w-full py-3 text-base">Enviar Reseña</button>
+                    </form>
+                    <div id="reviewMessage"></div>
+                </div>
+
+                <div class="review-section">
+                    <h3 class="text-2xl font-bold text-yellow-600 mb-6">⭐ Reseñas Recientes</h3>
+                    <div id="reviewsList" class="space-y-4">
+                        <div class="review-item">
+                            <div class="review-item-author">Laura Martínez</div>
+                            <div class="review-item-rating">⭐⭐⭐⭐⭐</div>
+                            <div class="review-item-text">El mejor café que he probado en Bogotá. El ambiente es increíble, la atención impecable y cada detalle cuenta. ¡Totalmente recomendado!</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-item-author">Carlos Rodríguez</div>
+                            <div class="review-item-rating">⭐⭐⭐⭐</div>
+                            <div class="review-item-text">Excelente experiencia en la Cata Profesional. Los baristas saben mucho y explicaron todo de manera clara. Volveré pronto.</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-item-author">María González</div>
+                            <div class="review-item-rating">⭐⭐⭐⭐⭐</div>
+                            <div class="review-item-text">Un lugar único en la ciudad. El diseño industrial es hermoso y el café es de verdadera calidad. Perfecto para relajarse.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contacto" class="section py-24 px-4 bg-black">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-6xl md:text-7xl font-black text-center mb-16 hero-title">Contáctanos</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="contact-info-item">
+                    <div class="icon">📍</div>
+                    <h3>Ubicación</h3>
+                    <p>Carrera 100 # 71B-08, Bogotá, Colombia<br>Alamos Norte - Engativa</p>
+                </div>
+                <div class="contact-info-item">
+                    <div class="icon">📞</div>
+                    <h3>Teléfono</h3>
+                    <p>+57 312 405 8835</p>
+                </div>
+                <div class="contact-info-item">
+                    <div class="icon">✉️</div>
+                    <h3>Email</h3>
+                    <p>elixir_coffebar@outlook.com</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-yellow-600">Horarios de Atención</h3>
+                    <div class="about-box">
+                        <h4 class="text-yellow-600 font-bold mb-2">Lunes a jueves</h4>
+                        <p class="text-gray-300">7:00 AM - 7:00 PM</p>
+                    </div>
+                    <div class="about-box">
+                        <h4 class="text-yellow-600 font-bold mb-2">Viernes y Sábado</h4>
+                        <p class="text-gray-300">7:00 AM - 11:00 PM</p>
+                    </div>
+                    <div class="about-box">
+                        <h4 class="text-yellow-600 font-bold mb-2">Domingos</h4>
+                        <p class="text-gray-300">7:00 AM - 7:00 PM</p>
+                    </div>
+                    <div class="space-y-4 mt-8">
+                        <h3 class="text-3xl font-bold text-yellow-600">Síguenos</h3>
+                        <div class="social-links">
+                            <span class="social-link" onclick="alert('Instagram: https://www.instagram.com/elixir_coffeebar?igsh=dTY1NWczcWNtaXJz')">📷</span>
+                            <span class="social-link" onclick="alert('Facebook: https://www.facebook.com/share/1C156aU8Y2/)">f</span>
+                            <span class="social-link" onclick="alert('Whatsapp: https://wa.me/message/L6P77E2L4BOXB1)">W</span>
+                            <span class="social-link" onclick="alert('TikTok: https://www.tiktok.com/@elixir.coffee.bar?_r=1&_t=ZS-91vP689pqHk)">♪</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-section">
+                    <h3 class="text-2xl font-bold text-yellow-600 mb-6">📧 Envíanos un Mensaje</h3>
+                    <form class="review-form" onsubmit="handleContact(event)">
+                        <div>
+                            <label for="contactName">Tu Nombre</label>
+                            <input type="text" id="contactName" class="input-field" placeholder="Ingresa tu nombre" required>
+                        </div>
+                        
+                        <div>
+                            <label for="contactEmail">Tu Email</label>
+                            <input type="email" id="contactEmail" class="input-field" placeholder="elixir_coffebar@outlook.com" required>
+                        </div>
+                        
+                        <div>
+                            <label for="contactPhone">Teléfono</label>
+                            <input type="tel" id="contactPhone" class="input-field" placeholder="+57 312 405 8835">
+                        </div>
+                        
+                        <div>
+                            <label for="contactSubject">Asunto</label>
+                            <select id="contactSubject" class="input-field" required>
+                                <option value="">Selecciona un asunto</option>
+                                <option value="Reserva">Reserva de Experiencia</option>
+                                <option value="Evento Privado">Evento Privado</option>
+                                <option value="Consulta General">Consulta General</option>
+                                <option value="Sugerencia">Sugerencia</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="contactMessage">Mensaje</label>
+                            <textarea id="contactMessage" class="input-field" placeholder="Cuéntanos cómo podemos ayudarte..." rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary w-full py-3 text-base">Enviar Mensaje</button>
+                    </form>
+                    <div id="contactMessageResult"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Reserva -->
+    <div id="reservaModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-yellow-600">Reserva tu Experiencia</h2>
+                <button onclick="closeReservaModal()" class="text-2xl text-yellow-600 hover:text-yellow-400 transition-colors">✕</button>
+            </div>
+            
+            <form class="review-form" onsubmit="handleReserva(event)">
+                <div>
+                    <label for="reservaExperiencia">Experiencia</label>
+                    <select id="reservaExperiencia" class="input-field" required>
+                        <option value="">Selecciona una experiencia</option>
+                        <option value="Cata Profesional">Cata Profesional</option>
+                        <option value="Tostado en Vivo">Tostado en Vivo</option>
+                        <option value="Brew Master">Brew Master</option>
+                        <option value="Evento Privado">Evento Privado</option>
+                        <option value="Certificación Barista">Certificación Barista</option>
+                        <option value="Viaje por Orígenes">Viaje por Orígenes</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="reservaNombre">Tu Nombre</label>
+                    <input type="text" id="reservaNombre" class="input-field" placeholder="Ingresa tu nombre" required>
+                </div>
+                
+                <div>
+                    <label for="reservaEmail">Tu Email</label>
+                    <input type="email" id="reservaEmail" class="input-field" placeholder="tu@email.com" required>
+                </div>
+                
+                <div>
+                    <label for="reservaTelefono">Teléfono</label>
+                    <input type="tel" id="reservaTelefono" class="input-field" placeholder="+57 300 123 4567" required>
+                </div>
+                
+                <div>
+                    <label for="reservaFecha">Fecha Deseada</label>
+                    <input type="date" id="reservaFecha" class="input-field" required>
+                </div>
+                
+                <div>
+                    <label for="reservaHora">Hora</label>
+                    <input type="time" id="reservaHora" class="input-field" required>
+                </div>
+                
+                <div>
+                    <label for="reservaPersonas">Número de Personas</label>
+                    <select id="reservaPersonas" class="input-field" required>
+                        <option value="">Selecciona cantidad</option>
+                        <option value="1">1 persona</option>
+                        <option value="2">2 personas</option>
+                        <option value="3">3 personas</option>
+                        <option value="4">4 personas</option>
+                        <option value="5">5 personas</option>
+                        <option value="6+">6 o más personas</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="reservaNotas">Notas Adicionales</label>
+                    <textarea id="reservaNotas" class="input-field" placeholder="Cuéntanos algo especial..." rows="3"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 text-base">Confirmar Reserva</button>
+            </form>
+            <div id="reservaMessage"></div>
+        </div>
+    </div>
+
+    <script>
+    // ========= MENÚ DATA =========
+    const MENU_FOOD = {
+        "Brunch & Desayunos": [
+            { name: "1. Avocado Toast Deluxe", desc: "Tostada rústica + aguacate cremoso + salmón ahumado + huevo pochado + mix de semillas + microbrotes.", note: "Perfecta para un brunch fresco con mimosa o spritz." },
+            { name: "2. Benedictinos Elixir", desc: "Pan brioche + jamón artesanal o salmón + dos huevos pochados + salsa holandesa de la casa + toque de paprika.", note: "Clásico, pero con personalidad." },
+            { name: "3. Shakshuka Andina", desc: "Huevos pochados en salsa de tomate especiada, pimentones, cebolla y hierbas frescas. Incluye pan artesanal para dippear.", note: "Aromática y poco común en la ciudad." },
+            { name: "4. Bowl Energético del Día", desc: "Yogurt griego o açaí + frutas frescas + granola crunchy casera + miel + topping del día (coco, almendras o cacao nibs).", note: "Ideal para amantes de la fruta." },
+            { name: "5. Omelette Relleno XL", desc: "Omelette esponjoso con relleno a elegir: Espinaca & queso feta, Champiñones trufados, Jamón artesanal & mozzarella", note: "Acompañado de ensalada fresca o tostada de la casa." },
+            { name: "6. Breakfast Sándwich Elixir", desc: "Pan brioche tostado + huevo al gusto + bacon caramelizado o jamón + queso fundido + mayo de la casa.", note: "Perfecto para arrancar el día con fuerza." }
+        ],
+        "Para Picar / Compartir": [
+            { name: "1. Papas Elixir con Desmechada", desc: "Papas en gajos crocantes + carne desmechada en cocción lenta + pico de gallo fresco + crema ácida + sirope artesanal Elixir.", note: "Potentes, frescas y perfectas para compartir." },
+            { name: "2. Tostadas Mediterráneas", desc: "Pan de masa madre + hummus de pimentón + tomate cherry + aceite de oliva + pesto casero." },
+            { name: "3. Flatbread Elixir", desc: "Pan plano artesanal + crema suave de quesos + tomates confitados + pesto fresco + miel de romero.", note: "Ligero, gourmet y perfecto para cocteles o café de especialidad." },
+            { name: "4. Tabla Gourmet Pequeña", desc: "Mix de quesos seleccionados + jamón serrano o copa + frutos secos + mermelada artesanal + pan tostado.", note: "Perfecta para cocteles." },
+            { name: "5. Chicken Bites Crispy", desc: "Bocaditos de pollo en panko + salsa búfalo o miel mostaza + limón.", note: "Favorito para acompañar cervezas o spritz." }
+        ],
+        "Dulces / Finales": [
+            { name: "1. Pan Brioche Francés (French Toast)", desc: "Pan brioche dorado + frutos frescos + crema dulce ligera + miel o sirope." },
+            { name: "2. Brownie Caliente con Helado", desc: "Brownie artesanal + helado de vainilla o pistacho + salsa tibia." }
+        ],
+        "Productos de Vitrina": [
+        { isList: true, name: "🥐 Croissants Artesanales", intro: "Hojaldre francés, mantequilla real, horneados cada día.", list: ["Mantequilla", "Almendras", "Chocolate"] },
+        { isList: true, name: "🫓 Amasijos Tradicionales", intro: "Recién horneados, perfectos para acompañar café.", list: ["Bono", "Almojábana", "Pan de Yuca"] },
+        { isList: true, name: "🍰 Tortas Artesanales (Porción)", list: ["<strong>Torta de Zanahoria:</strong> Especiada, húmeda, con nueces y frosting suave de queso crema.", "<strong>Torta de Amapola:</strong> Ligera, aromática y con toque cítrico."] },
+        { isList: true, name: "🥧 Pasteles Salados", list: ["<strong>Pastel de Pollo:</strong> Masa dorada y crujiente, relleno jugoso de pollo especiado.", "<strong>Pastel de Carne:</strong> Sazonado, suave y con masa hojaldrada recién horneada."] }
+        ]
+    };
+
+    const MENU_DRINKS = {
+        "Cafés de Especialidad": [
+            { name: "Espresso Elixir", desc: "Café intenso y balanceado, elaborado con nuestro blend exclusivo. De cuerpo robusto y aroma profundo, ideal para los amantes del sabor puro." },
+            { name: "Americano", desc: "Espresso aligerado con agua caliente, ofreciendo una textura suave y notas tostadas que realzan la esencia del café colombiano." },
+            { name: "Macchiato", desc: "Espresso corto coronado con una nube de espuma de leche. Equilibrio entre potencia y suavidad." },
+            { name: "Cappuccino Clásico", desc: "Preparado con la proporción perfecta entre espresso, leche vaporizada y espuma cremosa. Textura aterciopelada y sabor armónico." },
+            { name: "Latte de la Casa", desc: "Suave, aromático y con arte latte característico. Leche vaporizada." },
+            { name: "Flat White", desc: "Doble espresso con leche microespumada que genera una textura sedosa y sabor concentrado. Perfecto para los paladares más exigentes." },
+            { name: "Mocca Elixir", desc: "Combinación de espresso y chocolate semiamargo, coronado con crema batida. Dulzura y fuerza en una misma taza." },
+            { name: "Cold Brew", desc: "Café extraído en frío durante 12 horas, ofreciendo un sabor suave, refrescante y naturalmente dulce." }
+        ], 
+        "Cafés Signature": [
+            { name: "Elixir Gold Latte", desc: "Espresso, leche texturizada y miel dorada artesanal, finalizado con canela flameada. Una experiencia dorada y aromática." },
+            { name: "Caramelo & Sal de Café", desc: "Espoble con caramelo salado artesanal, cubierto con espuma cremosa. Dulce, sedoso y con un toque de sofisticación." },
+            { name: "Cacao Andino", desc: "Fusión de espresso con chocolate 70% cacao colombiano, leche vaporizada y crema batida. Intenso y reconfortante." },
+            { name: "Affogato con Helado Artesanal", desc: "Espresso servido sobre helado de vainilla o pistacho, con galletas trituradas. Una experiencia fría-caliente de textura cremosa." },
+            { name: "Baileys Latte", desc: "Latte con crema irlandesa, disponible con o sin licor. Dulce, cremoso y elegante." },
+            { name: "Elixir de Canela", desc: "Café especiado con canela, miel pura y un toque de naranja deshidratada. Aromático, cálido y revitalizante." }
+        ],
+        "Tés & Bebidas sin Café": [
+            { name: "Chocolate Caliente Mexicano", desc: "Con chile y canela — clásico y especiado." },
+            { name: "Aromáticas Originales de Hierbas", desc: "Combinaciones de menta, jengibre y manzanilla con frutas, especias o miel local. Naturales y reconfortantes." },
+            { name: "Té Matcha Ceremonial", desc: "Matcha de alta calidad preparado de forma tradicional. Sabor terroso y suave, ideal para los amantes del bienestar." },
+            { name: "Limonadas Artesanales", desc: "Natural, Cerezada, de Coco o Hierbabuena. Refrescantes, preparadas con jugo fresco y endulzadas con panela o miel." },
+            { name: "Infusión de Frutos Rojos", desc: "Flor de Jamaica y frutos del bosque. Natural, fresco y lleno de aroma." },
+            { name: "Smoothie Detox", desc: "Verde / Frutos Rojos / Tropical. Combinaciones naturales de frutas y vegetales frescos. Energía pura en cada sorbo." },
+            { name: "Malteada o Granizado Elixir ", desc: "De chocolate, vainilla o café. Cremosa, servida con helado artesanal y decoración gourmet." }
+        ],
+        "Coctelería con Café": [
+            { name: "Elixir Espresso Martini", desc: "Vodka premium, licor de café, espresso doble y almíbar artesanal. Potente, elegante y sofisticado." },
+            { name: "Café Negroni", desc: "Ginebra, vermut rojo y Campari infusionado con café tostado. Amargo, aromático y con personalidad." },
+            { name: "Carajillo de la Casa", desc: "Licor 43, espresso y toque de naranja flameada. Dulce, cítrico y lleno de carácter." },
+            { name: "Irish Coffee", desc: "Whisky irlandés, café, azúcar moreno y crema espumada. Tradicional, cálido y equilibrado." },
+            { name: "Elixir Spritz", desc: "Espresso frío, agua tónica premium y twist de limón. Ligero, burbujeante y refrescante." }
+        ],
+        "Coctelería sin Café": [
+            { name: "Elixir Passion", desc: "Gin, maracuyá, limón y espuma de romero. Tropical, aromático y visualmente vibrante." },
+            { name: "Lavanda Mule", desc: "Vodka, jarabe de lavanda, jengibre y soda. Floral, fresco y elegante." },
+            { name: "Sunset Tonic", desc: "Ginebra rosé, frutos rojos y twist de lima. Refrescante y visualmente atractivo." },
+            { name: "Mocktail Vital", desc: "Ron blanco, hierbabuena, azúcar y cold brew suave. Una reinterpretación herbal del clásico mojito." },
+            { name: "Elixir Fuego de Gulupa", desc: "Tequila premium, pulpa fresca de gulupa, limón y un toque sutil de ají dulce infusionado. Exótico, vibrante y con un picante elegante que realza la fruta." }
+        ]
+    };
+
+    // ========= VARIABLES GLOBALES =========
+    const catsContainer = document.getElementById('subcatsContainer');
+    const menuGrid = document.getElementById('menuGrid');
+    const photoGallery = document.getElementById('photoGallery');
+    const emptyGalleryMessage = document.getElementById('emptyGalleryMessage');
+
+    const reservaModal = document.getElementById('reservaModal');
+    const reservaExperienciaSelect = document.getElementById('reservaExperiencia');
+    const reservaNombre = document.getElementById('reservaNombre');
+    const reservaEmail = document.getElementById('reservaEmail');
+    const reservaTelefono = document.getElementById('reservaTelefono');
+    const reservaFecha = document.getElementById('reservaFecha');
+    const reservaHora = document.getElementById('reservaHora');
+    const reservaPersonas = document.getElementById('reservaPersonas');
+    const reservaNotas = document.getElementById('reservaNotas');
+    const reservaMessage = document.getElementById('reservaMessage');
+
+    const reviewMessage = document.getElementById('reviewMessage');
+    const reviewsList = document.getElementById('reviewsList');
+    const contactMessageResult = document.getElementById('contactMessageResult');
+
+    let activeMenu = MENU_FOOD;
+    let activeCat = Object.keys(activeMenu)[0];
+
+    // Mostrar sección
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.toggle('active', section.id === id);
+        });
+        // Ocultar menú móvil si está abierto
+        const mobileMenu = document.getElementById('mobileMenu');
+        if(mobileMenu) mobileMenu.classList.add('hidden');
+    }
+    window.showSection = showSection;
+
+    // Menú móvil toggle
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        if(mobileMenu) mobileMenu.classList.toggle('hidden');
+    }
+    window.toggleMobileMenu = toggleMobileMenu;
+
+    // Cambiar menú Comidas/Bebidas
+    function changeMainMenu(menuType) {
+        activeMenu = (menuType === 'food') ? MENU_FOOD : MENU_DRINKS;
+        activeCat = Object.keys(activeMenu)[0];
+
+        // Actualizar botones principales de comidas/bebidas
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+
+        buildCats();
+        updateMenu();
+
+        // Marcar botón activo
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            if (btn.textContent === activeCat) btn.classList.add('active');
+        });
+    }
+    window.changeMainMenu = changeMainMenu;
+
+    // Construir subcategorías
+    function buildCats() {
+        catsContainer.innerHTML = '';
+        Object.keys(activeMenu).forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = 'cat-btn' + (cat === activeCat ? ' active' : '');
+            btn.textContent = cat;
+            btn.onclick = () => {
+                activeCat = cat;
+                updateMenu();
+                document.querySelectorAll('#subcatsContainer .cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            catsContainer.appendChild(btn);
+        });
+    }
+
+    // Actualizar menú
+    function updateMenu() {
+        const items = activeMenu[activeCat] || [];
+        menuGrid.innerHTML = '';
+        items.forEach(it => {
+            if (it.isList) {
+                const card = document.createElement('div');
+                card.className = 'list-card';
+
+                let listHTML = `<h4>${it.name}</h4>`;
+                if (it.intro) listHTML += `<p class="intro">${it.intro}</p>`;
+                listHTML += `<ul>${it.list.map(li => `<li>${li}</li>`).join('')}</ul>`;
+
+                card.innerHTML = listHTML;
+                menuGrid.appendChild(card);
+            } else {
+                const card = document.createElement('div');
+                card.className = 'menu-card';
+
+                let htmlContent = `<h4>${it.name}</h4>`;
+                if(it.desc) htmlContent += `<p>${it.desc}</p>`;
+                if (it.list) {
+                    htmlContent += `<ul>${it.list.map(li => `<li>${li}</li>`).join('')}</ul>`;
+                }
+                if (it.note) htmlContent += `<em>${it.note}</em>`;
+
+                card.innerHTML = htmlContent;
+                menuGrid.appendChild(card);
+            }
+        });
+    }
+
+    // GALERÍA
+
+    function loadGallery() {
+        let photos = JSON.parse(localStorage.getItem('elixir_photos') || '[]');
+        updateGalleryUI(photos);
+    }
+
+    function updateGalleryUI(photos) {
+        photoGallery.innerHTML = '';
+        if(photos.length === 0){
+            emptyGalleryMessage.style.display = 'block';
+            return;
+        }
+        emptyGalleryMessage.style.display = 'none';
+
+        photos.forEach((src, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Foto ${index + 1}`;
+            item.appendChild(img);
+
+            const btnDelete = document.createElement('button');
+            btnDelete.className = 'gallery-item-delete';
+            btnDelete.textContent = '×';
+            btnDelete.title = 'Eliminar foto';
+
+            btnDelete.onclick = (e) => {
+                e.stopPropagation();
+                removePhoto(index);
+            };
+
+            item.appendChild(btnDelete);
+            photoGallery.appendChild(item);
+        });
+    }
+
+    function removePhoto(index) {
+        let photos = JSON.parse(localStorage.getItem('elixir_photos') || '[]');
+        photos.splice(index, 1);
+        localStorage.setItem('elixir_photos', JSON.stringify(photos));
+        updateGalleryUI(photos);
+    }
+
+    function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            alert('Solo puedes subir imágenes.');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            alert('El archivo debe ser menor a 5MB.');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            let photos = JSON.parse(localStorage.getItem('elixir_photos') || '[]');
+            photos.push(e.target.result);
+            localStorage.setItem('elixir_photos', JSON.stringify(photos));
+            updateGalleryUI(photos);
+        };
+        reader.readAsDataURL(file);
+        event.target.value = '';
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.currentTarget.classList.add('dragover');
+    }
+
+    function handleDragLeave(event) {
+        event.currentTarget.classList.remove('dragover');
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        event.currentTarget.classList.remove('dragover');
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+            for (const file of files) {
+                if (!file.type.startsWith('image/')) continue;
+                if (file.size > 5 * 1024 * 1024) continue;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    let photos = JSON.parse(localStorage.getItem('elixir_photos') || '[]');
+                    photos.push(e.target.result);
+                    localStorage.setItem('elixir_photos', JSON.stringify(photos));
+                    updateGalleryUI(photos);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    // RESERVAS
+    function openReservaModal(experiencia = '') {
+        reservaModal.classList.add('active');
+        if (experiencia) {
+            reservaExperienciaSelect.value = experiencia;
+        }
+    }
+    function closeReservaModal() {
+        reservaModal.classList.remove('active');
+        reservaMessage.innerHTML = '';
+        reservaExperienciaSelect.value = '';
+        reservaNombre.value = '';
+        reservaEmail.value = '';
+        reservaTelefono.value = '';
+        reservaFecha.value = '';
+        reservaHora.value = '';
+        reservaPersonas.value = '';
+        reservaNotas.value = '';
+    }
+    window.openReservaModal = openReservaModal;
+    window.closeReservaModal = closeReservaModal;
+
+    function handleReserva(event) {
+        event.preventDefault();
+        if (!reservaExperienciaSelect.value ||
+            !reservaNombre.value.trim() ||
+            !reservaEmail.value.trim() ||
+            !reservaTelefono.value.trim() ||
+            !reservaFecha.value ||
+            !reservaHora.value ||
+            !reservaPersonas.value) {
+            reservaMessage.innerHTML = `<p class="error-message">Por favor completa todos los campos obligatorios.</p>`;
+            return;
+        }
+        const reserva = {
+            id: Date.now(),
+            experiencia: reservaExperienciaSelect.value,
+            nombre: reservaNombre.value.trim(),
+            email: reservaEmail.value.trim(),
+            telefono: reservaTelefono.value.trim(),
+            fecha: reservaFecha.value,
+            hora: reservaHora.value,
+            personas: reservaPersonas.value,
+            notas: reservaNotas.value.trim()
+        };
+        let reservas = JSON.parse(localStorage.getItem('elixir_reservas') || '[]');
+        reservas.push(reserva);
+        localStorage.setItem('elixir_reservas', JSON.stringify(reservas));
+
+        reservaMessage.innerHTML = `<p class="success-message">Reserva confirmada para <strong>${reserva.nombre}</strong> en la experiencia <strong>${reserva.experiencia}</strong>.</p>`;
+        setTimeout(() => {
+            closeReservaModal();
+        }, 2500);
+    }
+    window.handleReserva = handleReserva;
+
+    // RESEÑAS
+    function handleReview(event) {
+        event.preventDefault();
+        const name = document.getElementById('reviewName').value.trim();
+        const rating = document.getElementById('reviewRating').value;
+        const text = document.getElementById('reviewText').value.trim();
+
+        if (!name || !rating || !text) {
+            reviewMessage.innerHTML = `<p class="error-message">Por favor completa todos los campos.</p>`;
+            return;
+        }
+
+        const reviewItem = document.createElement('div');
+        reviewItem.className = 'review-item';
+
+        const authorDiv = document.createElement('div');
+        authorDiv.className = 'review-item-author';
+        authorDiv.textContent = name;
+
+        const ratingDiv = document.createElement('div');
+        ratingDiv.className = 'review-item-rating';
+        ratingDiv.textContent = rating;
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'review-item-text';
+        textDiv.textContent = text;
+
+        reviewItem.appendChild(authorDiv);
+        reviewItem.appendChild(ratingDiv);
+        reviewItem.appendChild(textDiv);
+
+        reviewsList.insertBefore(reviewItem, reviewsList.firstChild);
+
+        document.getElementById('reviewName').value = '';
+        document.getElementById('reviewRating').value = '';
+        document.getElementById('reviewText').value = '';
+
+        reviewMessage.innerHTML = `<p class="success-message">¡Gracias por tu reseña!</p>`;
+        setTimeout(() => {
+            reviewMessage.innerHTML = '';
+        }, 3000);
+    }
+    window.handleReview = handleReview;
+
+    // CONTACTO
+    function handleContact(event) {
+        event.preventDefault();
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const phone = document.getElementById('contactPhone').value.trim();
+        const subject = document.getElementById('contactSubject').value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+
+        if (!name || !email || !subject || !message) {
+            contactMessageResult.innerHTML = `<p class="error-message">Completa todos los campos obligatorios.</p>`;
+            return;
+        }
+
+        contactMessageResult.innerHTML = `<p class="success-message">Gracias, ${name}. Tu mensaje ha sido enviado.</p>`;
+
+        event.target.reset();
+
+        setTimeout(() => {
+            contactMessageResult.innerHTML = '';
+        }, 3000);
+    }
+    window.handleContact = handleContact;
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+        changeMainMenu('food');
+        loadGallery();
+
+        // Accesibilidad para categorías
+        catsContainer.addEventListener('keydown', (e) => {
+            const buttons = Array.from(catsContainer.querySelectorAll('button'));
+            const idx = buttons.findIndex(b => b.classList.contains('active'));
+            if(e.key === 'ArrowRight'){ const next = buttons[(idx + 1) % buttons.length]; if(next){ e.preventDefault(); next.click(); next.focus(); } }
+            if(e.key === 'ArrowLeft'){ const prev = buttons[(idx - 1 + buttons.length) % buttons.length]; if(prev){ e.preventDefault(); prev.click(); prev.focus(); } }
+        });
+
+        // Eventos drag & drop galería
+        const uploadArea = document.querySelector('.upload-area');
+        if (uploadArea) {
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
+        }
+
+        // Iniciar menú móvil oculto
+        const mobileMenu = document.getElementById('mobileMenu');
+        if(mobileMenu) mobileMenu.classList.add('hidden');
+    });
+</script>
